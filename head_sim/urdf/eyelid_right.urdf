@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="eyelid_right">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0123769991188436 1.42919452308997E-17 6.27107821657866E-18"
+        rpy="0 0 0" />
+      <mass
+        value="0.000395712149004729" />
+      <inertia
+        ixx="4.19474952732173E-08"
+        ixy="4.19588598544019E-24"
+        ixz="2.9259424351267E-24"
+        iyy="2.29591936075884E-08"
+        iyz="-5.35343872685221E-15"
+        izz="2.29588923461701E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/eyelid.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/eyelid.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="base_link">
+    <material>Gazebo/Grey</material>
+    <gravity>false</gravity>
+  </gazebo>
+
+  <!-- <link name="world" />
+  <joint name="fixed" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin xyz="0.029149 -0.03065 0.157526" />
+  </joint> -->
+
+</robot>

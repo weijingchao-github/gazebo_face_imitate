@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="head_yaw_and_pitch">
+
+  <link name="world" />
+
+  <joint name="fix_on_the_world" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
+  
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-1.1474E-05 0.023378 0.044803"
+        rpy="0 0 0" />
+      <mass
+        value="0.55854" />
+      <inertia
+        ixx="0.00057363"
+        ixy="5.5521E-07"
+        ixz="-3.9046E-07"
+        iyy="0.00067156"
+        iyz="-2.2128E-08"
+        izz="0.00064583" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="link_pitch">
+    <inertial>
+      <origin
+        xyz="-5.3309E-05 -0.0079231 0.031075"
+        rpy="0 0 0" />
+      <mass
+        value="0.40415" />
+      <inertia
+        ixx="0.00044454"
+        ixy="-1.0004E-09"
+        ixz="-7.1431E-07"
+        iyy="0.0002397"
+        iyz="1.3536E-07"
+        izz="0.00038362" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/link_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/link_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_pitch"
+    type="revolute">
+    <origin
+      xyz="0 0 0.06"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="link_pitch" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link_head">
+    <inertial>
+      <origin
+        xyz="0.0095032 2.5297E-06 0.11715"
+        rpy="0 0 0" />
+      <mass
+        value="3.8486" />
+      <inertia
+        ixx="0.016603"
+        ixy="1.8824E-08"
+        ixz="0.0010935"
+        iyy="0.019835"
+        iyz="-1.1105E-08"
+        izz="0.012264" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/link_head.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://head_sim/meshes/link_head.STL" />
+      </geometry>
+    </collision> -->
+    <collision>
+      <origin
+        xyz="0 0 0.1"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere
+          radius="0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_yaw"
+    type="revolute">
+    <origin
+      xyz="0 -0.01 0.07"
+      rpy="0 0 0" />
+    <parent
+      link="link_pitch" />
+    <child
+      link="link_head" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <gazebo
+    reference="base_link" >
+    <gravity>
+      false
+    </gravity>
+  </gazebo>
+  <gazebo
+    reference="link_pitch" >
+    <gravity>
+      false
+    </gravity>
+  </gazebo>
+  <gazebo
+    reference="link_head" >
+    <gravity>
+      false
+    </gravity>
+  </gazebo>
+</robot>

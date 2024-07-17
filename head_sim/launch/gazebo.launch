@@ -1,0 +1,39 @@
+<launch>
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <node
+    name="head_yaw_and_pitch"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find head_sim)/urdf/head_yaw_and_pitch.urdf -urdf -model head_yaw_and_pitch"
+    output="screen" />
+  <node
+    name="eye_left"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find head_sim)/urdf/eye_left.urdf -urdf -model eye_left"
+    output="screen" />
+  <node
+    name="eye_right"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find head_sim)/urdf/eye_right.urdf -urdf -model eye_right"
+    output="screen" />
+  <node
+    name="eyelid_left"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find head_sim)/urdf/eyelid_left.urdf -urdf -model eyelid_left"
+    output="screen" />
+  <node
+    name="eyelid_right"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find head_sim)/urdf/eyelid_right.urdf -urdf -model eyelid_right"
+    output="screen" />
+  <node
+    name="set_initial_sim_state"
+    pkg="head_sim"
+    type="set_initial_sim_state.py"
+    output="screen" />
+</launch>

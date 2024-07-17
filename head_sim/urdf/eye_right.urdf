@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+         Commit Version: 1.6.0-4-g7f85cfe    Build Version: 1.6.7995.38578
+         For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+    name="eye_right">
+    <link
+        name="white_ball">
+        <inertial>
+            <origin
+                xyz="-3.4834E-05 -1.3674E-20 6.1753E-09"
+                rpy="0 0 0" />
+            <mass
+                value="0.014103" />
+            <inertia
+                ixx="1.2721E-06"
+                ixy="-9.7695E-24"
+                ixz="-9.2234E-13"
+                iyy="1.2651E-06"
+                iyz="-4.039E-25"
+                izz="1.2651E-06" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_white_ball.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_white_ball.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <link
+        name="component_1">
+        <inertial>
+            <origin
+                xyz="4E-08 0 -2.6597E-19"
+                rpy="0 0 0" />
+            <mass
+                value="1.9635E-05" />
+            <inertia
+                ixx="2.4544E-10"
+                ixy="2.3715E-44"
+                ixz="0"
+                iyy="1.2282E-10"
+                iyz="0"
+                izz="1.2282E-10" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_component_1.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_component_1.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint
+        name="joint_1"
+        type="fixed">
+        <origin
+            xyz="0.014267 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="white_ball" />
+        <child
+            link="component_1" />
+        <axis
+            xyz="0 0 0" />
+    </joint>
+    <link
+        name="component_2">
+        <inertial>
+            <origin
+                xyz="4E-08 0 9.2668E-20"
+                rpy="0 0 0" />
+            <mass
+                value="3.1416E-06" />
+            <inertia
+                ixx="6.2832E-12"
+                ixy="1.5178E-45"
+                ixz="2.3393E-45"
+                iyy="3.158E-12"
+                iyz="0"
+                izz="3.158E-12" />
+        </inertial>
+        <visual>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_component_2.STL" />
+            </geometry>
+            <material
+                name="">
+                <color
+                    rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://head_sim/meshes/eye_component_2.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint
+        name="joint_2"
+        type="fixed">
+        <origin
+            xyz="0.00025 0 0"
+            rpy="0 0 0" />
+        <parent
+            link="component_1" />
+        <child
+            link="component_2" />
+        <axis
+            xyz="0 0 0" />
+    </joint>
+
+    <!-- <link name="world" />
+    <joint name="fixed" type="fixed">
+        <parent link="world" />
+        <child link="white_ball" />
+        <origin xyz="0.029149 0.03065 0.157526" />
+    </joint> -->
+
+    <gazebo reference="white_ball">
+        <material>Gazebo/White</material>
+        <gravity>false</gravity>
+    </gazebo>
+    <gazebo reference="component_1">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="component_2">
+        <material>Gazebo/Black</material>
+    </gazebo>
+</robot>
