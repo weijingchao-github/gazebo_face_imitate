@@ -22,9 +22,9 @@ def set_eye_initial_state_msg():
     eye_left_initial_state_msg.model_name = "eye_left"
     eye_left_position = [0.07506, -0.03055, 0.12254]  # xyz
     eye_left_initial_state_msg.pose.position = Point(*eye_left_position)
-    eye_left_euler_angle_xyz = [0, 0, 0]
+    eye_left_euler_angle_zyx = [0, 0, 0]
     quaternion = Rotation.from_euler(
-        "xyz", eye_left_euler_angle_xyz, degrees=True
+        "zyx", eye_left_euler_angle_zyx, degrees=True
     ).as_quat()  # xyzw
     eye_left_initial_state_msg.pose.orientation = Quaternion(*quaternion)
     eye_left_initial_state_msg.reference_frame = "link_head"
@@ -33,9 +33,9 @@ def set_eye_initial_state_msg():
     eye_right_initial_state_msg.model_name = "eye_right"
     eye_right_position = [0.07506, 0.03055, 0.12254]  # xyz
     eye_right_initial_state_msg.pose.position = Point(*eye_right_position)
-    eye_right_euler_angle_xyz = [0, 0, 0]
+    eye_right_euler_angle_zyx = [0, 0, 0]
     quaternion = Rotation.from_euler(
-        "xyz", eye_right_euler_angle_xyz, degrees=True
+        "zyx", eye_right_euler_angle_zyx, degrees=True
     ).as_quat()
     eye_right_initial_state_msg.pose.orientation = Quaternion(*quaternion)
     eye_right_initial_state_msg.reference_frame = "link_head"

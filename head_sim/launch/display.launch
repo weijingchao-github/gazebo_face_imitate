@@ -1,0 +1,37 @@
+<launch>
+  <arg
+    name="model" />
+  <group
+    ns="head_yaw_and_pitch">
+    <param
+      name="robot_description"
+      textfile="$(find head_sim)/urdf/head_yaw_and_pitch.urdf" />
+    <node
+      name="joint_state_publisher_gui"
+      pkg="joint_state_publisher_gui"
+      type="joint_state_publisher_gui" />
+    <node
+      name="robot_state_publisher"
+      pkg="robot_state_publisher"
+      type="robot_state_publisher" />
+  </group>
+  <group
+    ns="eye_left">
+    <param
+      name="robot_description"
+      textfile="$(find head_sim)/urdf/eye_left.urdf" />
+    <node
+      name="joint_state_publisher_gui"
+      pkg="joint_state_publisher_gui"
+      type="joint_state_publisher_gui" />
+    <node
+      name="robot_state_publisher"
+      pkg="robot_state_publisher"
+      type="robot_state_publisher" />
+  </group>
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find head_sim)/config/cfg1.rviz" />
+</launch>
