@@ -9,6 +9,7 @@ import math
 import cv2
 import DrEmpower_CyberGear as cb_motor
 import rospy
+import serial
 from gazebo_msgs.msg import ModelState
 from gazebo_msgs.srv import SetModelConfiguration, SetModelConfigurationRequest
 from geometry_msgs.msg import Point, Quaternion, Vector3
@@ -120,6 +121,11 @@ def main():
         id_num=motor_id, index=0x7016, value=0 * callable.DEG_RAD, data_type="f"
     )
     rospy.loginfo("Motor config finished.")  # 打印出这一行后就不用扶着头了
+
+    # servo serial communication init
+    servo_ser_com = serial.Serial(
+        port="/dev/ttyUSB0", baudrate=115200, timeout=1, bytesize=8
+    )
 
     try:
         while True:
@@ -271,6 +277,8 @@ def main():
                 )
 
                 # pub signal to servo
+                servo_signal = str
+                servo_ser_com.write(servo_signal.encode("utf-8"))
 
                 # show and update image
                 image_name = image_name_sequence[time_step]
@@ -292,6 +300,7 @@ def main():
     finally:
         cb_motor.motor_estop(id_num=motor_id)
         cb_motor.uart.close()
+        servo_ser_com.close()
 
 
 if __name__ == "__main__":
