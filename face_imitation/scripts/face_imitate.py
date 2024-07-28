@@ -7,7 +7,8 @@ sys.path.insert(0, path)
 import math
 
 import cv2
-import DrEmpower_CyberGear as cb_motor
+
+# import DrEmpower_CyberGear as cb_motor
 import rospy
 import serial
 from gazebo_msgs.msg import ModelState
@@ -94,38 +95,40 @@ def main():
     )
     cv2.moveWindow("video", 0, 0)
 
-    ## motor config
-    # motor args
-    motor_id = 127
-    limit_cur = 27
-    max_speed = 100
-    # 1. 设置电机机械零位
-    cb_motor.set_zero_position(id_num=motor_id)
-    # 2. 设置电机运行模式:位置控制模式
-    cb_motor.set_mode(id_num=motor_id, mode=1)
-    # 3. 设置电机最大速度
-    cb_motor.write_property(
-        id_num=motor_id,
-        index=0x7017,
-        value=max_speed * cb_motor.R_MIN_RAD_S,
-        data_type="f",
-    )
-    # 4. 设置电机电流限制
-    cb_motor.write_property(
-        id_num=motor_id, index=0x7018, value=limit_cur, data_type="f"
-    )
-    # 5. 使能电机
-    cb_motor.motor_enable(id_num=motor_id)
-    # 6. 将电机控制在机械零位并锁死
-    cb_motor.write_property(
-        id_num=motor_id, index=0x7016, value=0 * callable.DEG_RAD, data_type="f"
-    )
-    rospy.loginfo("Motor config finished.")  # 打印出这一行后就不用扶着头了
+    # ## motor config
+    # # motor args
+    # motor_id = 127
+    # limit_cur = 27
+    # max_speed = 100
+    # # 1. 设置电机机械零位
+    # cb_motor.set_zero_position(id_num=motor_id)
+    # # 2. 设置电机运行模式:位置控制模式
+    # cb_motor.set_mode(id_num=motor_id, mode=1)
+    # # 3. 设置电机最大速度
+    # cb_motor.write_property(
+    #     id_num=motor_id,
+    #     index=0x7017,
+    #     value=max_speed * cb_motor.R_MIN_RAD_S,
+    #     data_type="f",
+    # )
+    # # 4. 设置电机电流限制
+    # cb_motor.write_property(
+    #     id_num=motor_id, index=0x7018, value=limit_cur, data_type="f"
+    # )
+    # # 5. 使能电机
+    # cb_motor.motor_enable(id_num=motor_id)
+    # # 6. 将电机控制在机械零位并锁死
+    # cb_motor.write_property(
+    #     id_num=motor_id, index=0x7016, value=0 * callable.DEG_RAD, data_type="f"
+    # )
+    # rospy.loginfo("Motor config finished.")  # 打印出这一行后就不用扶着头了
 
     # servo serial communication init
-    servo_ser_com = serial.Serial(
-        port="/dev/ttyUSB0", baudrate=115200, timeout=1, bytesize=8
-    )
+    result = os.popen("sudo ls -l /dev/ttyUSB*").read()
+    com = result.split()[-1]
+    os.system("sudo chmod 777 " + com)
+    servo_ser_com = serial.Serial(port=com, baudrate=115200, timeout=1, bytesize=8)
+    rospy.loginfo("Servo config finished.")
 
     try:
         while True:
@@ -268,16 +271,52 @@ def main():
                 eye_and_eyelid_state_setter.publish(eyelid_left_state_msg)
                 eye_and_eyelid_state_setter.publish(eyelid_right_state_msg)
 
-                # pub signal to motor
-                cb_motor.write_property(
-                    id_num=motor_id,
-                    index=0x7016,
-                    value=head_pose_pitch_angle,
-                    data_type="f",
-                )
+                # # pub signal to motor
+                # cb_motor.write_property(
+                #     id_num=motor_id,
+                #     index=0x7016,
+                #     value=head_pose_pitch_angle,
+                #     data_type="f",
+                # )
 
                 # pub signal to servo
-                servo_signal = str
+                servo_blink_flag = "1" if blink_progress == 1 else "0"
+                servo_head_pose_yaw_angle = str(
+                    int(round(head_pose_yaw_angle_sequence[time_step] + 90, 0))
+                )
+                if len(servo_head_pose_yaw_angle) == 2:
+                    servo_head_pose_yaw_angle = "0" + servo_head_pose_yaw_angle
+                servo_eye_left_euler_angle_z = str(
+                    int(round(math.degrees(eye_left_euler_angle_z) + 90, 0))
+                )
+                if len(servo_eye_left_euler_angle_z) == 2:
+                    servo_eye_left_euler_angle_z = "0" + servo_eye_left_euler_angle_z
+                servo_eye_left_euler_angle_y = str(
+                    int(round(math.degrees(eye_left_euler_angle_y) + 90, 0))
+                )
+                if len(servo_eye_left_euler_angle_y) == 2:
+                    servo_eye_left_euler_angle_y = "0" + servo_eye_left_euler_angle_y
+                servo_eye_right_euler_angle_z = str(
+                    int(round(math.degrees(eye_right_euler_angle_z) + 90, 0))
+                )
+                if len(servo_eye_right_euler_angle_z) == 2:
+                    servo_eye_right_euler_angle_z = "0" + servo_eye_right_euler_angle_z
+                servo_eye_right_euler_angle_y = str(
+                    int(round(math.degrees(eye_right_euler_angle_y) + 90, 0))
+                )
+                if len(servo_eye_right_euler_angle_y) == 2:
+                    servo_eye_right_euler_angle_y = "0" + servo_eye_right_euler_angle_y
+
+                servo_signal = (
+                    "V"
+                    + servo_blink_flag
+                    + servo_head_pose_yaw_angle
+                    + servo_eye_left_euler_angle_z
+                    + servo_eye_left_euler_angle_y
+                    + servo_eye_right_euler_angle_z
+                    + servo_eye_right_euler_angle_y
+                )
+                assert len(servo_signal) == 17
                 servo_ser_com.write(servo_signal.encode("utf-8"))
 
                 # show and update image
@@ -292,14 +331,24 @@ def main():
                 # delay
                 rospy.sleep(rospy.Duration(1 / 30))
 
-            # 将电机回到并锁死在机械零位
-            cb_motor.write_property(
-                id_num=motor_id, index=0x7016, value=0 * cb_motor.DEG_RAD, data_type="f"
-            )
+            # # 将电机回到并锁死在机械零位
+            # cb_motor.write_property(
+            #     id_num=motor_id, index=0x7016, value=0 * cb_motor.DEG_RAD, data_type="f"
+            # )
+
+            # 一次模仿完毕,将头复位
+            servo_signal = "V" + "0" + "090" + "090" + "090" + "090" + "090"
+            assert len(servo_signal) == 17
+            servo_ser_com.write(servo_signal.encode("utf-8"))
 
     finally:
-        cb_motor.motor_estop(id_num=motor_id)
-        cb_motor.uart.close()
+        # cb_motor.motor_estop(id_num=motor_id)
+        # cb_motor.uart.close()
+
+        # 将头复位
+        servo_signal = "V" + "0" + "090" + "090" + "090" + "090" + "090"
+        assert len(servo_signal) == 17
+        servo_ser_com.write(servo_signal.encode("utf-8"))
         servo_ser_com.close()
 
 
